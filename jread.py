@@ -39,43 +39,51 @@ FIELDSs = ['Accept','Accept-Charset','Accept-Encoding','Accept-Language','Accept
 'Authorization','Cache-Control','Connection','Content-Length',
 'Content-MD5','Content-Type','Cookie','Date',
 'Expect','Forwarded','From','Host','HTTP2-Settings',
-'If-Match','If-Modified-Since''If-None-Match','If-Range','If-Unmodified-Since','Max-Forwards',
+'If-Match','If-Modified-Since','If-None-Match','If-Range','If-Unmodified-Since','Max-Forwards',
 'Origin','Pragma','Proxy-Authorization','Range','Referer','TE','Upgrade','User-Agent','Via','Warning']
 
 FIELDS = []
 for a in FIELDSs:
     FIELDS.append(a.lower())
-print("Non-standard information in requests are:")
+
+#print("Non-standard information in requests are:")
+
+
 with open('arc.har','r') as f:
     data = HarParser(json.loads(f.read()))
 
-    for page in data.pages:
-        print(' ')
-        print(' ')
-        print(page)
-        print(' ')
-        for entry in page.entries:
-            tab = entry['request']['headers']
-            print(' ')
-            print(entry['request']['url'])
-            print(entry['request']['httpVersion'])
-            print(' ')
-            for aa in tab:
-                if aa['name'].lower() not in FIELDS:
-                    print(a)
-    print(' ')
-    print(' ')
-    print(' ')
-    print("Non-standard informations for response are:")
-    for page in data.pages:
-        print(' ')
-        print(' ')
-        print(page)
-        for entry in page.entries:
-            print(' ')
-            taba = entry['response']['headers']
-            print(entry['response']['httpVersion'])
-            print(' ')
-            for ab in taba:
-                if ab['name'].lower() not in FIELDS:
-                    print(ab)
+for page in data.pages:
+    print(page)
+    for entry in page.entries:
+        toprint = ""
+        reqHtab = entry['request']['headers']
+        respHtab = entry['response']['headers']
+        toprint = toprint + entry['request']['url'] +"\n" +  entry['request']['httpVersion'] + "\n"+ "Requests:\n"
+        #print(entry['request']['url'])
+        #print(entry['request']['httpVersion'])
+        for aa in reqHtab:
+            if aa['name'].lower() not in FIELDS:
+                toprint = toprint + str(aa) +"\n"
+        toprint = toprint + "\n" + "Responce:\n"
+        for bb in respHtab:
+            if bb['name'].lower() not in FIELDS:
+                toprint = toprint + str(bb) +"\n"
+        print(toprint)
+"""
+print(' ')
+print(' ')
+print(' ')
+print("Non-standard informations for response are:")
+for page in data.pages:
+print(' ')
+print(' ')
+print(page)
+for entry in page.entries:
+print(' ')
+taba = entry['response']['headers']
+print(entry['response']['httpVersion'])
+print(' ')
+for ab in taba:
+if ab['name'].lower() not in FIELDS:
+print(ab)
+"""
