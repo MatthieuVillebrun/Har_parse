@@ -25,3 +25,6 @@ Run it using
 ```
 ./jread.py
 ```
+
+# References
+This project uses haralyzer library that you an find here : https://github.com/mrname/haralyzer
