@@ -42,50 +42,67 @@ FIELDSs = ['Accept','Accept-Charset','Accept-Encoding','Accept-Language','Accept
 'If-Match','If-Modified-Since','If-None-Match','If-Range','If-Unmodified-Since','Max-Forwards',
 'Origin','Pragma','Proxy-Authorization','Range','Referer','TE','Upgrade','User-Agent','Via','Warning']
 
-
+ff = []
+dd = []
 
 FIELDS = []
 for a in FIELDSs:
     FIELDS.append(a.lower())
-
-#print("Non-standard information in requests are:")
-
-
 with open('arcCSP.har','r') as f:
     data = HarParser(json.loads(f.read()))
 
-for page in data.pages:
-    print(page)
-    for entry in page.entries:
+    for page in data.pages:
         toprint = ""
-        reqHtab = entry['request']['headers']
-        respHtab = entry['response']['headers']
-        toprint = toprint + entry['request']['url'] +"\n" +  entry['request']['httpVersion'] + "\n"+ "Requests:\n"
-        #print(entry['request']['url'])
-        #print(entry['request']['httpVersion'])
-        for aa in reqHtab:
-            if aa['name'].lower() not in FIELDS:
-                toprint = toprint + str(aa) +"\n"
-        toprint = toprint + "\n" + "Responce:\n"
-        for bb in respHtab:
-            if bb['name'].lower() not in FIELDS:
-                toprint = toprint + str(bb) +"\n"
+        toprint = toprint + "=========================\n" #str(page)
         print(toprint)
-"""
-print(' ')
-print(' ')
-print(' ')
-print("Non-standard informations for response are:")
-for page in data.pages:
-print(' ')
-print(' ')
-print(page)
-for entry in page.entries:
-print(' ')
-taba = entry['response']['headers']
-print(entry['response']['httpVersion'])
-print(' ')
-for ab in taba:
-if ab['name'].lower() not in FIELDS:
-print(ab)
-"""
+        for entry in page.entries:
+            tab = entry['request']['headers']
+            toprinta = ""
+            toprinta = toprinta + entry['request']['url'] + "\n" + entry['request']['httpVersion'] + "\n"
+            #print(entry['request']['url'])
+            #print(entry['request']['httpVersion'])
+            #print(' ')
+            i = 0
+            for aa in tab:
+                if aa['name'].lower() not in FIELDS:
+                    i = i + 1
+                    if aa['name'].lower() not in ff:
+                        ff.append(aa['name'].lower())
+                    toprinta = toprinta + str(aa) +"\n"
+            '''if i!=0:
+                print(toprinta)'''
+    print(ff)
+    print(len(ff))
+        
+    print('00000000000')
+    print('0000000000')
+    print('000000000')
+    print('00000000')
+    print('0000000')
+    print('000000')
+    print('00000')
+    print('0000')
+    for page in data.pages:
+        toprint = ""
+        toprint = toprint + "=========================\n" #+ str(page)
+        print(toprint)
+        for entry in page.entries:
+            tab = entry['response']['headers']
+            toprinta = ""
+            toprinta = toprinta + entry['request']['url']+"\n" + entry['response']['httpVersion'] + "\n"
+            #print(entry['request']['url'])
+            #print(entry['request']['httpVersion'])
+            #print(' ')
+            i = 0
+            for aa in tab:
+                if aa['name'].lower() not in FIELDS:
+                    i = i + 1
+                    if aa['name'].lower() not in dd:
+                        dd.append(aa['name'].lower())
+                    toprinta = toprinta + str(aa) +"\n"
+            '''if i!=0:
+                print(toprinta)'''
+    print(dd)
+    print(len(dd))
+
+
